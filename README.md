@@ -28,7 +28,7 @@ Le module dispose d'une syntaxe simple et correspondant à la réalité (règles
 ##### Variables
 On peut utiliser toutes les combinaisons de lettres désirées ainsi que le symbole '_'
 ##### Opérateurs
-addition +, soustraction -, division /, multiplacation * et exposant ^ 
+addition +, soustraction -, division /, multiplication * et exposant ^ 
 ##### Racine carrée
 ()^(1/2)
 ##### Exponentielle et Logarithme
