@@ -412,7 +412,7 @@ def calc_values_table(parsin_ch, values_table, variables_order):
     return (True, results)
 
 
-def math_function(string, values_table, variables_order):
+def compute(string, values_table, variables_order):
     lexing_str = lexing(string)  # Lexing de la chaine de caractère
     if lexing_str[0] == False:
         return lexing_str
