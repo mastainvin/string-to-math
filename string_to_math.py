@@ -393,7 +393,10 @@ def calc(parsing_ch, variable_dict):
         return (True , float(parsing_ch[1]))  # Nombre que l'on convertit
     else:
         # Variable, dont on récupère la valeur à partir du dictionnaire donné en paramètre
-        return (True, variable_dict[parsing_ch[1]])
+        if parsing_ch[1] == 'pi': # Récupérer le nombre pi
+            return(True, math.pi)
+        else:
+            return (True, variable_dict[parsing_ch[1]])
 
 # Fonction permettant le calcul de plusieurs résultats avec différents valeur pour chaque variables dans une même fonction
 def calc_values_table(parsin_ch, values_table, variables_order):
@@ -425,8 +428,10 @@ def compute(string, values_table, variables_order):
     # Vérification des variables de notre formule
     variables = get_variables(lexing_str[1])
     for variable in variables:
-        if variable[1] not in variables_order:
+        if variable[1] not in variables_order and variable[1] != 'pi':
             return (False, "{} n'appartient pas à la liste d'entrées.".format(variable[1]))
+    if 'pi' in variables_order:
+        return (False, 'pi ne peut pas être une variable')
 
     parentheses_str = blocked_parentheses(lexing_str[1])
     # Création des noeuds en fonction de l'operation puissance
