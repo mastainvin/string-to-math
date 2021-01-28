@@ -26,7 +26,7 @@ C'est la chaine de caractère représentant votre fonction mathématique.
 #### Syntaxe de la chaine
 Le module dispose d'une syntaxe simple et correspondant à la réalité (règles de calcul)
 ##### Variables
-On peut utiliser toutes les combinaisons de lettres désirées ainsi que le symbole '_'
+On peut utiliser toutes les combinaisons de lettres désirées à part 'pi' (car pi est réservé pour la valeur) ainsi que le symbole '_'
 ##### Opérateurs
 addition +, soustraction -, division /, multiplication * et exposant ^ 
 ##### Racine carrée
