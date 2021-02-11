@@ -192,7 +192,7 @@ def get_variables(lexing_ch):
     variables_list = list()
     for element in lexing_ch:
         if get_element_type(element) == 'identifier':
-            variables_list.append(element)
+            variables_list.append(element[1])
     return variables_list
 
 
@@ -414,33 +414,53 @@ def calc_values_table(parsin_ch, values_table, variables_order):
             return result
     return (True, results)
 
+    
+class Str_math_formula():
 
-def compute(string, values_table, variables_order):
-    lexing_str = lexing(string)  # Lexing de la chaine de caractère
-    if lexing_str[0] == False:
-        return lexing_str
+    def __init__(self, str_formula ):
+        self.str = str_formula
+        self.lexing_str = lexing(self.str)
+        self.variables = get_variables(self.lexing_str[1])
 
-    # Création de blocs en fonctions de parenthèses
-    parentheses_check = count_parentheses(lexing_str[1])
-    if parentheses_check[0] == False:
-        return parentheses_check
+    def is_valid(self):
+        if self.lexing_str[0] == False:
+            return self.lexing_str
 
-    # Vérification des variables de notre formule
-    variables = get_variables(lexing_str[1])
-    for variable in variables:
-        if variable[1] not in variables_order and variable[1] != 'pi':
-            return (False, "{} n'appartient pas à la liste d'entrées.".format(variable[1]))
-    if 'pi' in variables_order:
-        return (False, 'pi ne peut pas être une variable')
+        # Création de blocs en fonctions de parenthèses
+        parentheses_check = count_parentheses(self.lexing_str[1])
+        if parentheses_check[0] == False:
+            return parentheses_check
 
-    parentheses_str = blocked_parentheses(lexing_str[1])
-    # Création des noeuds en fonction de l'operation puissance
-    parsing_ch = block_with_operation(parentheses_str, ['^'])
-    # Création des noeuds en fonction de l'operation multiplication
-    parsing_ch = block_with_operation(parsing_ch, ['*', '/'])
-    # Création des noeuds en fonctoin de l'operation addition
-    parsing_ch = block_with_operation(parsing_ch, ['+', '-'])
-    # Calcul des résultats
-    resultats = calc_values_table(parsing_ch, values_table, variables_order)  
-    return resultats
+        return (True, ' ')
 
+    def are_variables_valid(self,  variables_order):
+        for variable in self.variables:
+            if variable not in variables_order and variable != 'pi':
+                return (False, "{} n'appartient pas à la liste d'entrées.".format(variable))
+        if 'pi' in variables_order:
+            return (False, 'pi ne peut pas être une variable')
+
+        return (True, ' ')
+        
+    def compute(self, values_table, variables_order):
+        is_str_valid = self.is_valid()
+        are_values_valid = self.are_variables_valid(variables_order)
+        is_formula_valid =  is_str_valid[0] and are_values_valid[0]
+        if is_formula_valid:
+            parentheses_str = blocked_parentheses(self.lexing_str[1])
+            # Création des noeuds en fonction de l'operation puissance
+            parsing_str = block_with_operation(parentheses_str, ['^'])
+            # Création des noeuds en fonction de l'operation multiplication
+            parsing_str = block_with_operation(parsing_str, ['*', '/'])
+            # Création des noeuds en fonctoin de l'operation addition
+            parsing_str = block_with_operation(parsing_str, ['+', '-'])
+            # Calcul des résultats
+            results = calc_values_table(parsing_str, values_table, variables_order)
+            return results
+        else:
+            if not is_str_valid[0]:
+                return is_str_valid
+            else:
+                return are_values_valid
+
+        
